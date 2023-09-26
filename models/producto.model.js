@@ -7,9 +7,11 @@ export const getProductoModel = async () => {
  
 export const getProductoUnicoModel = async (id) => {
     const pg =  new pgService(); 
+    console.log(id);
     return  await  pg.connection.query(`SELECT * FROM producto
-    where id_producto =  $1`, [id]);
+    where id =  $1`, [id]);
 }
+
 export const postProductoModel = async (nombre, detalle, valor ) => {
     try{
         const pg =  new pgService(); 
@@ -24,4 +26,24 @@ export const postProductoModel = async (nombre, detalle, valor ) => {
     }
 
 }
+
+export const updateProductoModel = async (id, nombre, detalle, valor) => {
+    try {
+        const pg = new pgService();
+        pg.connection.query(`UPDATE PRODUCTO SET NOMBRE = $1, DETALLE = $2, VALOR = $3 WHERE ID = $4`, [nombre, detalle, valor, id]);
+        return 'Transacción realizada';
+    } catch (error) {
+        return 'En este momento no se puede realizar su transacción';
+    }
+};
+
+export const deleteProductoModel = async (id) => {
+    try {
+        const pg = new pgService();
+        pg.connection.query(`DELETE FROM PRODUCTO WHERE ID = $1`, [id]);
+        return 'Transacción realizada';
+    } catch (error) {
+        return 'En este momento no se puede realizar su transacción';
+    }
+};
  
